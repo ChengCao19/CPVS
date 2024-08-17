@@ -1,0 +1,1 @@
+解压fixed_boll_image.zip，替换此文件夹即可
