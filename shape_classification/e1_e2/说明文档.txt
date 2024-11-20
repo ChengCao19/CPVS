@@ -1,9 +1,9 @@
 本文档位于父文件下的e1_e2文件夹中，用于注释说明。
 
 文档包含了各文件与文件夹的功能和调用关系。
-————————————————————————————————————————————————————————————————————————————————————
+———————————————————————————————————
 
-all_varieties.RData是在父目录中通过readexcelfiles.R生成的二进制文件，可以直接加载使用。
+all_varieties.RData是在父目录中通过readexcelfiles.R生成的文件，可以直接加载使用。
 
 k1.R与k2.R通过加载all_varieties.RData执行了k1参数和k2参数的分段。
 segmented_dfs1.RData与segmented_dfs2.RData为分段后保存的二进制数据。
