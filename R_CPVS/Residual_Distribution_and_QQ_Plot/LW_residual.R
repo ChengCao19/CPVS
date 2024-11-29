@@ -5,6 +5,7 @@ library(ggsci)
 library(dplyr)
 
 load("LW.RData")
+
 L1 = data.frame(
   FileJ = LW$FileJ, 
   length = LW$length, 
@@ -20,19 +21,9 @@ L1_filtered = L1 %>%
   filter(l_re1 <= 0.2 & l_re1 >= -0.3)
 W1_filtered = W1 %>%
   filter(w_re1 <= 0.2 & w_re1 >= -0.2)
+
 #----
-# 直方图
-# ggplot(L1, aes(x = l_re1)) +
-#   geom_histogram(bins = 30, fill = "skyblue", color = "black") +
-#   labs(x = "残差 (v_re1)", y = "", title = "") +
-#   scale_x_continuous(
-#     breaks = seq(round(min(LW$l_re1),1), round(max(LW$l_re1),1), length.out = 6))+
-#   scale_y_continuous(breaks = c(0, 5, 10, 15, 20)) +
-#   theme_bw()+
-#   theme(
-#     panel.grid.major = element_blank(), 
-#     panel.grid.minor = element_blank())
-# 残差分布
+# residual distribution
 p = ggplot(L1, aes(x = LengthPre1, y = l_re1)) +
   geom_point(shape = 23, fill = '#3D9195', color = "#3D9195",size = 7, stroke = 1.5, alpha = 0.6)+
   geom_hline(yintercept = 0, linetype = "dashed", color = "black", linewidth = 1.95)+
@@ -51,7 +42,7 @@ p = p + annotate("text", x = 5, y = -1, label = "(d)", size = 8)
 p
 ggsave(filename = "cancha.pdf", p, width = 6, height = 6, units = "in", dpi = 300)
 
-# QQ图
+# QQ plot
 p = ggplot(L1_filtered, aes(sample = l_re1))+
   stat_qq(shape = 21, fill = "#82B29A", size = 5, alpha = 0.6)+
   stat_qq_line()+
@@ -74,7 +65,7 @@ p
 ggsave(filename = "adjusted_plot.pdf", plot = p, width = 6, height = 6, dpi = 300)
 
 #----
-# 残差分布
+# residual distribution
 p = ggplot(W1, aes(x = WidPre1, y = w_re1)) +
   geom_point(shape = 23, fill = '#3D9195', color = "#3D9195",size = 7, stroke = 1.5, alpha = 0.6)+
   geom_hline(yintercept = 0, linetype = "dashed", color = "black", linewidth = 1.95)+
@@ -93,7 +84,7 @@ p = p + annotate("text", x = 3, y = -1, label = "(e)", size = 8)
 p
 ggsave(filename = "cancha.pdf", plot = p, width = 6, height = 6, units = "in", dpi = 300)
 
-# QQ图
+# QQ plot
 p = ggplot(W1_filtered, aes(sample = w_re1))+
   stat_qq(shape = 21, fill = "#82B29A", size = 5, alpha = 0.6)+
   stat_qq_line()+
