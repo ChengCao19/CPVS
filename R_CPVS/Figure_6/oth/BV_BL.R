@@ -5,14 +5,16 @@ library(ggExtra)
 
 data = read.table("clipboard",sep = "\t",header = TRUE)
 
+#----Correlation plot of BV and BL----
+
 model = lm(volume ~ length, data = data)
 summary_model = summary(model)
-# 截距与斜率
+
 intercept = round(summary_model$coefficients[1,1], digits = 3) 
 slope = round(summary_model$coefficients[2,1], digits = 3) 
-# 构建公式字符串
+
 equation = paste("y = ", slope, "x + ", intercept)
-r_squared = round(summary_model$r.squared, digits = 2)                          # R方
+r_squared = round(summary_model$r.squared, digits = 2)                          # R-square
 
 Scatter = ggplot(data,aes(x = length, y = volume))+
   #expand_limits(x=c(-13.5,-0.5),y=c(-15,240))+

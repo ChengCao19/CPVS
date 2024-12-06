@@ -1,7 +1,7 @@
 setwd("D:/Rproject/correlation_plot")
 rm(list = ls())
 
-#----Correlation plot of BV and BW
+#----Correlation plot of BV and BW----
 
 library(ggplot2)
 library(ggsci)

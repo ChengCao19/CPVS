@@ -10,12 +10,11 @@ library(broom)
 load("data11.RData")
 #----
 model = lm(area ~ volume, data = data11)
-summary_model = summary(model)                                                # 线性
+summary_model = summary(model)                                                  # linear
 
-# 截距与斜率
 intercept = round(summary_model$coefficients[1,1], digits = 3) 
 slope = round(summary_model$coefficients[2,1], digits = 3) 
-# 构建公式字符串
+                                                                                # create equation
 equation = paste("y = ", slope, "x + ", intercept)
 r_squared = round(summary_model$r.squared, digits = 2)                          # R方
 
@@ -46,17 +45,14 @@ ggsave("VS1.pdf", p, width = 6.5, height = 5.5, unit = "in", dpi = 300)
 
 #----
 model = lm(area ~ log(volume), data = data11)
-summary_model = summary(model)                                                  # 对数
+summary_model = summary(model)                                                  
 
-# 从summary_model获取截距与斜率
 intercept = round(coef(summary_model)[1], digits = 3)
 slope = round(coef(summary_model)[2], digits = 3)
 
-# 构建公式字符串
 equation = paste("y = ", slope, "ln(x)- ", abs(intercept))
-r_squared = round(summary_model$r.squared, digits = 2) # R方
+r_squared = round(summary_model$r.squared, digits = 2)
 
-# 绘制散点图并添加拟合线
 Scatter <- ggplot(data11, aes(x = volume, y = area)) +
   geom_point(shape = 21, size = 3.8, aes(fill= classify), position="jitter", alpha=1) +
   stat_smooth(method = "lm", formula = y ~ log(x), size = 1.2, linetype = 1, alpha = 0.7) +
@@ -71,7 +67,7 @@ Scatter <- ggplot(data11, aes(x = volume, y = area)) +
   labs(x = "Volume", y = "Area")+
   annotate("text", x = min(data11$volume), y = max(data11$area), 
            label = paste(equation, "\nR² = ", r_squared), 
-           hjust = 0, vjust = 1, size = 6) # 调整size参数以确保文本可读
+           hjust = 0, vjust = 1, size = 6)
 Scatter
 
 p1 = ggMarginal(Scatter, type = "density", xparams = list(fill ="#7CAE00"), size = 12,
@@ -80,7 +76,7 @@ ggsave("VS2.pdf", p1, width = 6.5, height = 5.5, unit = "in", dpi = 300)
 
 #----
 model = nls(area ~ a * volume^b, data = data11, start = list(a = 1, b = 1))
-summary_model = summary(model)                                                  # 乘幂
+summary_model = summary(model)                                                 
 
 # # 计算残差平方和（RSS）
 # residuals <- residuals(model)
@@ -92,22 +88,15 @@ summary_model = summary(model)                                                  
 # pseudo_R2 <- 1 - (RSS / TSS)
 # print(pseudo_R2)
 
-# 从nls模型中提取参数
 a = round(coef(model)['a'], digits = 3)
 b = round(coef(model)['b'], digits = 3)
 
-# 构建公式字符串。这里我们展示的是乘幂关系
 equation = paste("y = ", a, "* x^", b)
-
-# 已经计算的类似于R-squared的值
 pseudo_R2 = round(0.8197138, digits = 2) # 使用之前计算得到的值
-
-# 计算拟合线的预测值
 
 volume_seq <- seq(min(data11$volume), max(data11$volume), length.out = 100)
 predicted_area <- a * volume_seq^b
 
-# 绘制散点图并添加拟合线
 Scatter <- ggplot(data11, aes(x = volume, y = area)) +
   geom_point(shape = 21, size = 3.8, aes(fill = classify), position = "jitter", alpha = 1) +
   geom_line(data = data.frame(volume_seq, predicted_area), aes(x = volume_seq, y = predicted_area), color = "blue", size = 1.2) +
@@ -122,25 +111,22 @@ Scatter <- ggplot(data11, aes(x = volume, y = area)) +
   labs(x = "Volume", y = "Area") +
   annotate("text", x = min(data11$volume), y = max(data11$area), 
            label = paste(equation, "\nR² = ", pseudo_R2), 
-           hjust = 0, vjust = 1, size = 6) # 调整size参数以确保文本可读
+           hjust = 0, vjust = 1, size = 6) 
 
-# 准备绘制散点图
 print(Scatter)
 
-# 添加边缘分布图
+# Add edge distribution map
 p3 = ggMarginal(Scatter, type = "density", margins = "both", xparams = list(fill = "#7CAE00"), yparams = list(fill = "#7CAE00"))
 p3
 ggsave("VS3.pdf", p3, width = 6.5, height = 5.5, unit = "in", dpi = 300)
 
 #----
 model = lm(log(area) ~ log(volume), data = data11)
-summary_model = summary(model)                                                  # 对数
+summary_model = summary(model)                                                  # logarithm
 
-# 从summary_model获取截距与斜率
 intercept = round(coef(summary_model)[1], digits = 3)
 slope = round(coef(summary_model)[2], digits = 3)
 
-# 构建公式字符串
 equation = paste("ln(y) =", slope, "ln(x) +", intercept)
 # 将该模型转化为乘幂形式:y=a*x^b
 # a = 3.85  # 前面计算得到的a值
@@ -148,7 +134,6 @@ equation = paste("ln(y) =", slope, "ln(x) +", intercept)
 # equation = paste("y = ", a, "* x^", b)
 r_squared = round(summary_model$r.squared, digits = 2) # R方
 
-# 绘制散点图并添加拟合线
 Scatter <- ggplot(data11, aes(x = volume, y = area)) +
   geom_point(shape = 21, size = 3.8, aes(fill= classify), position="jitter", alpha=1) +
   stat_smooth(method = "lm", formula = y ~ log(x), size = 1.2, linetype = 1, alpha = 0.7) +
@@ -163,9 +148,8 @@ Scatter <- ggplot(data11, aes(x = volume, y = area)) +
   labs(x = "Volume", y = "Area") +
   annotate("text", x = min(data11$volume), y = max(data11$area), 
            label = paste(equation, "\nR² = ", r_squared), 
-           hjust = 0, vjust = 1, size = 6) # 调整size参数以确保文本可读
+           hjust = 0, vjust = 1, size = 6)                                      # Adjust the size parameter to ensure the text is readable
 
-# 绘制散点图
 print(Scatter)
 
 p4 = ggMarginal(Scatter, type = "density", xparams = list(fill ="#7CAE00"), size = 12,
