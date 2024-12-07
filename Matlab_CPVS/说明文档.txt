@@ -8,7 +8,7 @@ This document is used to describe the code structure of CPVS.
 ------------------------------------------------------------
 
 3. Test_Modeling.m: Test code for the test set;
-4. cottonboll_first.m: Code for obtaining shape parameters.
+4. cottonboll_first.m & cottonboll_second.m: Code for obtaining shape parameters.
 
 ------------------------------------------------------------
 
