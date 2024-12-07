@@ -25,16 +25,16 @@ PA = [1.0 1.1627 2.4160 0.9544;
       2.1 1.1516 2.8636 0.9938;
       2.2 1.1516 2.8636 0.9938;
       2.3 1.1516 2.8636 0.9938];
-                                                                           % 查找与PA第一列某一行的值相等的行
+                                                                           % Find a row that is equal to the value of a row in the first column of PA
 row_indices = find(ismember(PA(:,1), LWR));
-    if ~isempty(row_indices)                                               % 如果找到匹配的行
-        row_index = row_indices(1);                                        % 取第一个匹配的行
-        A = PA(row_index, 2);                                              % 获取对应行的第二列和第三列的值
+    if ~isempty(row_indices)                                               % If a matching line is found
+        row_index = row_indices(1);                                        % Get the first matching line
+        A = PA(row_index, 2);                                              % Get the values of the second and third columns of the corresponding row
         B = PA(row_index, 3);
-        CV = A * wid_pre^B;                                                % 计算CV      
+        CV = A * wid_pre^B;                                                % calculate CV      
     else
         CV = 0;
-        disp('The CV is empty!');                                          % 如果没有找到匹配的行，则将CV设为NaN
+        disp('The CV is empty!');                                          % If no matching rows are found, the CV is set to NaN.
     end
 CA1 = Pmu_fun(CV);
 CA2 = Ls_fun(CV);

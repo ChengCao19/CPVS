@@ -1,18 +1,18 @@
 library(writexl)
 
-# 使用 intersect 函数获取交集
-intersection_sfaa = intersect(sorted_varieties_sf2a, sorted_varieties_sf1a)  # sf2第一段参数sf2a与sf1a交
-intersection_sfab = intersect(sorted_varieties_sf2a, sorted_varieties_sf1b)  #              sf2a与sf1b
-intersection_sfac = intersect(sorted_varieties_sf2a, sorted_varieties_sf1c)  #              sf2a与sf1c
+# Use the intersect function to find intersections
+intersection_sfaa = intersect(sorted_varieties_sf2a, sorted_varieties_sf1a)  # Intersection between sf2a from the first segment and sf1a
+intersection_sfab = intersect(sorted_varieties_sf2a, sorted_varieties_sf1b)  # Intersection between sf2a and sf1b
+intersection_sfac = intersect(sorted_varieties_sf2a, sorted_varieties_sf1c)  # Intersection between sf2a and sf1c
 
-intersection_sfba = intersect(sorted_varieties_sf2b, sorted_varieties_sf1a)  # sf2第二段参数sf2b与sf1a交
-intersection_sfbb = intersect(sorted_varieties_sf2b, sorted_varieties_sf1b)  #              sf2b与sf1b
-intersection_sfbc = intersect(sorted_varieties_sf2b, sorted_varieties_sf1c)  #              sf2b与sf1c
+intersection_sfba = intersect(sorted_varieties_sf2b, sorted_varieties_sf1a)  # Intersection between sf2b from the second segment and sf1a
+intersection_sfbb = intersect(sorted_varieties_sf2b, sorted_varieties_sf1b)  # Intersection between sf2b and sf1b
+intersection_sfbc = intersect(sorted_varieties_sf2b, sorted_varieties_sf1c)  # Intersection between sf2b and sf1c
 
-# 定义 Excel 文件名
-excel_file <- "SF交集结果.xlsx"
+# Define the Excel file name
+excel_file <- "SF_Intersection_Results.xlsx"
 
-# 创建数据框
+# Create data frames
 df_sfaa <- data.frame(Sfaa = intersection_sfaa)
 df_sfab <- data.frame(Sfab = intersection_sfab)
 df_sfac <- data.frame(Sfac = intersection_sfac)
@@ -21,13 +21,13 @@ df_sfba <- data.frame(Sfba = intersection_sfba)
 df_sfbb <- data.frame(Sfbb = intersection_sfbb)
 df_sfbc <- data.frame(Sfbc = intersection_sfbc)
 
-# 将数据框写入 Excel 文件
-write_xlsx(list(df_sfaa, df_sfab, df_sfac,df_sfba,df_sfbb,df_sfbc), path = excel_file)
+# Write the data frames to an Excel file
+write_xlsx(list(df_sfaa, df_sfab, df_sfac, df_sfba, df_sfbb, df_sfbc), path = excel_file)
 
-# 打印成功消息
-cat("交集结果已成功写入到 Excel 文件:", excel_file)
+# Print success message
+cat("Intersection results have been successfully written to the Excel file:", excel_file)
 
-##### 检验6个结果，两两做交集
+##### Check the six results, do pairwise intersections
 intersection_list <- list(
   intersection_sfaa, intersection_sfab, intersection_sfac,
   intersection_sfba, intersection_sfbb, intersection_sfbc

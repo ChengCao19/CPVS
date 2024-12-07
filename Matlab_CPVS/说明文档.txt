@@ -1,22 +1,29 @@
-本文档用于说明matlabproject文件中的cottonboll工作。
-cottonboll_first.m为随机图像实验获取参数的代码；
-cottonboll_second.m为固定图像实验的代码；
-Modeling.m为建模的全局文件；
-————————————————————————
-boll_image文件夹为固定距离拍摄的图像；
-data为随机图像数据；
-vol_and_test文件夹用来建立与验证体积公式模型
-_____________________________________________________________
-对于体积：
-Calvolume.m为新建体积模型；
-Po_fun.m为幂函数模型；
-Geo_fun.m为几何函数模型；
-Ter_fun.m为三元回归模型；
-Bin_fun.m为二元函数模型。
 
-#注意：表面积函数在体积模型中调用
+This document is used to describe the code structure of CPVS.
+------------------------------------------------------------
 
-对于表面积：
-Pmu_fun.m为乘幂模型；
-Ls_fun.m为线性模型。
+1. Modeling.m is the main file of CPVS;
+2. Calvolume.m contains the main content of the SPC and PPE modules in CPVS.
+
+------------------------------------------------------------
+
+3. Test_Modeling.m: Test code for the test set;
+4. cottonboll_first.m: Code for obtaining shape parameters.
+
+------------------------------------------------------------
+
+Regarding volume:
+Calvolume.m is used to call the length-width estimation algorithm in CPVS, the developed volume and surface area models, and the models proposed by Wang & Liu (1991):
+
+Power function model: Po_fun.m;
+Geometric function model: Geo_fun.m;
+Ternary regression model: Ter_fun.m;
+Binary regression model: Bin_fun.m.
+
+-------------------------------------------------------------
+
+Regarding surface area:
+
+Pmu_fun.m: Power multiplication model;
+Ls_fun.m: Linear model.
 

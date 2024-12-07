@@ -25,14 +25,14 @@ BA = [1.2 -47.64 21.49 0.9904;
       2.2 -48.84 25.70 0.9995];
 
 row_indices = find(ismember(BA(:,1), LWR));
-    if ~isempty(row_indices)                                               % 如果找到匹配的行
-        row_index = row_indices(1);                                        % 取第一个匹配的行
-        a = BA(row_index, 2);                                              % 获取对应行的第二列的值
+    if ~isempty(row_indices)                                               % If a matching line is found
+        row_index = row_indices(1);                                        % Get the first matching line
+        a = BA(row_index, 2);                                              % Get the value of the second column of the corresponding row
         b = BA(row_index, 3);
-        CV = a + b*wid_pre;                                                % 计算CV      
+        CV = a + b*wid_pre;                                                % Calculate CV  
     else
         CV = 0;
-        disp('The CV is empty!');                                          % 无匹配的行，返回0
+        disp('The CV is empty!');                                          % No matching rows, returns 0.
     end
 CA1 = Pmu_fun(CV);
 CA2 = Ls_fun(CV);

@@ -1,0 +1,10 @@
+
+Introduce the functions and calling relationships of each file.
+————————————————————————————
+
+1. 'sf1.R' and 'sf2.R' performed the segmentation of the sf1 and sf2 parameters by loading 'all_varieties.RData'.
+
+2. 'sf1_class.R' and 'sf2_class.R' perform classification based on the segmentation information, mapping the variety names to the segmented data, and then sorting and outputting the segmented variety names.
+
+3. 'sf1_sf2' filters the segmented variety data using intersection operations. By applying permutations and combinations, it selects one segment from the two segments of sf2 and one segment from the three segments of sf1, resulting in a total of 6 categories.
+

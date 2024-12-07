@@ -1,12 +1,14 @@
 clear,clc;
 
+% This is a code for running the test set data
+
 % data = readtable(fixed_image_lab.xlsx, 'Sheet', 1);
 load("data.mat")
 
-CV = [];                                                                   % 存储体积
-CA1 = [];                                                                  % 存储表面积
+CV = [];                                                                   % Store volume
+CA1 = [];                                                                  % Store surface area
 CA2 = [];
-Th = [];                                                                   % 存储长宽度
+Th = [];                                                                   % Store length and width
 num = [];
 
 for i = 1:length(data.LWR)
@@ -15,13 +17,13 @@ for i = 1:length(data.LWR)
 
     num = [num; i];
     [CV1,CA11,CA21,len_pre1,wid_pre1] = Calvolume(w, h);
-    [CV2,CA12,CA22,~,~] = Po_fun(w, h);                                    % 由于长宽估计算法相同，故后面该参数省略
-    [CV3,CA13,CA23,~,~] = Geo_fun(w,h);
+    [CV2,CA12,CA22,~,~] = Po_fun(w, h);                                    % Since the length-width estimation algorithm is the same, 
+    [CV3,CA13,CA23,~,~] = Geo_fun(w,h);                                    % the following parameters are omitted
     [CV4,CA14,CA24,~,~] = Ter_fun(w, h);
     [CV5,CA15,CA25,~,~] = Bin_fun(w, h);
-    CV = [CV;CV1 CV2 CV3 CV4 CV5];                                         % 所有体积模型的计算结果
-    CA1 = [CA1;CA11 CA12 CA13 CA14 CA15];                                  % 不同体积下的表面积模型1结果
-    CA2 = [CA2;CA21 CA22 CA23 CA24 CA25];                                  % 不同体积下的表面积模型2结果
+    CV = [CV;CV1 CV2 CV3 CV4 CV5];                                         % Calculation results of all volume models
+    CA1 = [CA1;CA11 CA12 CA13 CA14 CA15];                                  % Results of surface area model 1 under different volumes
+    CA2 = [CA2;CA21 CA22 CA23 CA24 CA25];                                  % Results of surface area model 2 under different volumes
     Th = [Th;len_pre1 wid_pre1];
 
 end

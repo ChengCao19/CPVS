@@ -1,77 +1,78 @@
-%% 计算棉铃长、宽
+%% Shape parameter extraction
+
 clear,clc;
 %Oriimage = 'D:\matlabproject\cottonboll\data'; 
-Oriimage = 'D:\matlabproject\cottonboll';        % 测试专用
-selected_folder = uigetdir(Oriimage);             % 被读取文件的存放目录
+Oriimage = 'D:\matlabproject\cottonboll';                                  % For testing
+selected_folder = uigetdir(Oriimage);                                      % Directory where the files to be read are stored
 
-Ori=selected_folder;
-orifile='.jpg';                                   % 被读取的文件名后缀
+Ori = selected_folder;
+orifile = '.jpg';                                                          % Suffix of the files to be read
 Dfiles = dir(fullfile(Ori, strcat('*', orifile)));
-A=[];B=[];
-for file_j= 1 : length(Dfiles)
-    disp(file_j);                                 % 显示当前处理的文件序号
+A = []; B = [];
+for file_j = 1 : length(Dfiles)
+    disp(file_j);                                                          % Display the current file number being processed
     oriName = Dfiles(file_j).name;
     noSuffixName = oriName(1:end-4);
-    oriName1=Dfiles(file_j).name;
-    pathOriImgName=sprintf('%s%s%s',Ori,'\',oriName1);
+    oriName1 = Dfiles(file_j).name;
+    pathOriImgName = sprintf('%s%s%s', Ori, '\', oriName1);
     figure(1);
-    imgOri=imshow(imread(pathOriImgName));        % 读入图像
-    % 法1
-    roi = drawrectangle;                  
-    if roi.Position(3)<=roi.Position(4)
+    imgOri = imshow(imread(pathOriImgName));                               % Read the image
+    % Method 1
+    roi = drawrectangle;                          
+    if roi.Position(3) <= roi.Position(4)
         w = roi.Position(3);
         h = roi.Position(4); 
-    else                                          % 始终使得w<h
+    else                                                                   % Ensure w < h
         w = roi.Position(4);
         h = roi.Position(3);
     end 
-    % 法2: roi = imcrop(imgOri);
-    num = input('请输入计算参数类型（0或1）：');
-    if num==0                                     % 计算正视图参数
-        [k,e,~,sf] = para(h,w);
-        A = [A;k e sf];
-        else if num==1                            % 计算俯视图参数
-            [k,e,q2,sf] = para(h,w);
-            B = [B;k e q2 sf];
+    % Method 2: roi = imcrop(imgOri);
+    num = input('Enter the calculation parameter type (0 or 1):');
+    if num == 0                                                            % Calculate parameters for front view
+        [k, e, ~, sf] = para(h, w);
+        A = [A; k e sf];
+    else if num == 1                                                       % Calculate parameters for top view
+            [k, e, q2, sf] = para(h, w);
+            B = [B; k e q2 sf];
         end
     end 
-end                                               % 需要保存的文件名称及路径
+end                                                                        % Path and file name to save
 
-% 使用目录分隔符分割路径
+% Split the path using the directory separator
 folderParts = strsplit(selected_folder, filesep);
 
-% 文件名编号
+% File name index
 folderName = folderParts{end};
 folderName1 = folderParts{end-1};
 
-% 文件名前缀
+% File name prefix
 fileNamePrefix = 'figure';
 
-% 构建文件名
-fileName = sprintf('%s%s.xlsx', fileNamePrefix,folderName);
+% Construct the file name
+fileName = sprintf('%s%s.xlsx', fileNamePrefix, folderName);
 
-% 将数据矩阵保存到指定路径并自动命名文件
+% Save the data matrix to the specified path and automatically name the file
 % filePath = fullfile(selected_folder, fileName);
 % define_folder = 'D:\AAA文献\棉铃\data';
-% filePath1 = fullfile(define_folder, folderName1,fileName);
-% writematrix(A,filePath,'Sheet',1,'Range','A2')
-% writematrix(B,filePath,'Sheet',2,'Range','A2')
-% writematrix(A,filePath1,'Sheet',1,'Range','A2')
-% writematrix(B,filePath1,'Sheet',2,'Range','A2')
+% filePath1 = fullfile(define_folder, folderName1, fileName);
+% writematrix(A, filePath, 'Sheet', 1, 'Range', 'A2')
+% writematrix(B, filePath, 'Sheet', 2, 'Range', 'A2')
+% writematrix(A, filePath1, 'Sheet', 1, 'Range', 'A2')
+% writematrix(B, filePath1, 'Sheet', 2, 'Range', 'A2')
 
-%% 参数函数
-function [k,e,q2,sf]=para(h,w)
-   c = abs(h-w);                                   % 差
-   k = 1-w/h;                                      % 椭圆度(圆度)
-   e = sqrt(1-(w^2/h^2));                          % 离心率
-   m = w*h;                                        % 检测框面积
-   sf = k/e;
-   %s1 = pi*w*h;                                   原数据使用此函数导致结果为pi
-   %s1 = pi*w*h/4;
-   s2 = pi*((w+h)/2)^2;                            % 拟合圆面积(饱满度)
-   %q1 = s1/m; 椭圆面积占比,该值为定值，并无提取意义
-   q2 = s2/m;                                      % 圆面积占比
-   if c<0
-      error('长和宽关系错误') 
+%% Parameter Function
+function [k, e, q2, sf] = para(h, w)
+   c = abs(h - w);                                                         % Difference
+   k = 1 - w / h;                                                          % Ellipticity (roundness)
+   e = sqrt(1 - (w^2 / h^2));                                              % Eccentricity
+   m = w * h;                                                              % Area of the detection box
+   sf = k / e;
+   %s1 = pi * w * h;                                                       % The original data used this function, resulting in pi
+   %s1 = pi * w * h / 4;
+   s2 = pi * ((w + h) / 2)^2;                                              % Fitted circle area (fullness)
+   %q1 = s1 / m; Ellipse area ratio, this value is constant and not meaningful to extract
+   q2 = s2 / m;                                                            % Circle area ratio
+   if c < 0
+      error('Incorrect relationship between length and width') 
    end
 end

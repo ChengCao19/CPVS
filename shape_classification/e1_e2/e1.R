@@ -1,37 +1,36 @@
-# 加载保存的变量
 load("all_varieties.RData")
 
-# 创建空向量以存储所有品种的sf1值和品种名
+# Create empty vectors to store all varieties' sf1 values and variety names
 all_e1 <- c()
 all_e1_varieties <- c()
 
-# 遍历所有品种
+# Iterate over all varieties
 for (variety in names(all_varieties)) {
-  # 获取当前品种的sheet1数据
+  # Get the sheet1 data for the current variety
   sheet1_data <- all_varieties[[variety]]$sheet1
   
   e1_values = as.numeric(sheet1_data$e1)
   
   e1_varieties <- rep(variety, length(e1_values))
   
-  # 将当前品种的sf1值和品种名添加到所有值列表中
+  # Add the current variety's sf1 values and variety names to the lists
   all_e1 <- c(all_e1, e1_values)
   all_e1_varieties <- c(all_e1_varieties, e1_varieties)
 }
-# 将品种名和对应的sf1值合并到一个数据框中
+# Combine variety names and corresponding sf1 values into a data frame
 combined_df <- data.frame(Variety = all_e1_varieties, E1 = all_e1)
 
-# 计算 SF1 值的最小值和最大值
+# Calculate the minimum and maximum values of SF1
 e1_min <- min(combined_df$E1)
 e1_max <- max(combined_df$E1)
 
-# 确定分为三个段，使用两个分位数
+# Define three segments using two quantiles
 num_segments <- 3
 quantiles <- quantile(combined_df$E1, probs = seq(0, 1, length.out = num_segments + 1))
 
-# 将 SF1 值根据分位数段分割
+# Split the SF1 values into segments based on the quantiles
 segments <- cut(combined_df$E1, breaks = quantiles, include.lowest = TRUE)
 
-# 按照分段将 combined_df 分为不同的子数据框
+# Split combined_df into different sub-dataframes based on the segments
 segmented_dfs2 <- split(combined_df, segments)
-# save(segmented_dfs2,file = "segmented_dfs2.RData")
+# save(segmented_dfs2, file = "segmented_dfs2.RData")

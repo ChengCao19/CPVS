@@ -1,0 +1,9 @@
+
+Introduce the functions and calling relationships of each file.
+————————————————————————————
+
+1. 'e1.R' and 'e2.R' performed the segmentation of the e1 and e2 parameters by loading 'all_varieties.RData'.
+
+2. 'e1_class.R' and 'e2_class.R' perform classification based on the segmentation information, mapping the variety names to the segmented data, and then sorting and outputting the segmented variety names.
+
+3. 'e1_e2' filters the segmented variety data using intersection operations. By applying permutations and combinations, it selects one segment from the two segments of e2 and one segment from the three segments of e1, resulting in a total of 6 categories.

@@ -24,13 +24,13 @@ GA = [1.2  1 0.9918;
       2.2 -8 0.9978];
 % 查找与GA第一列某一行的值相等的行
 row_indices = find(ismember(GA(:,1), LWR));
-    if ~isempty(row_indices)                                               % 如果找到匹配的行
-        row_index = row_indices(1);                                        % 取第一个匹配的行
-        n = GA(row_index, 2);                                              % 获取对应行的第二列的值
-        CV = 0.5*len_pre*wid_pre^2+0.0125*n*wid_pre^3;                     % 计算CV      
+    if ~isempty(row_indices)                                               % If a matching line is found
+        row_index = row_indices(1);                                        % Get the first matching line
+        n = GA(row_index, 2);                                              % Get the value of the second column of the corresponding row
+        CV = 0.5*len_pre*wid_pre^2+0.0125*n*wid_pre^3;                     % Calculate CV     
     else
         CV = 0;
-        disp('The CV is empty!');                                          % 无匹配的行，返回0
+        disp('The CV is empty!');                                          % No matching rows, returns 0.
     end
 CA1 = Pmu_fun(CV);
 CA2 = Ls_fun(CV);

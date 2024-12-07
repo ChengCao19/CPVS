@@ -1,46 +1,47 @@
-# 加载保存的变量
+# Load saved variables
 load("all_varieties.RData")
 
-# 创建空向量以存储所有品种的sf1值和品种名
+# Create empty vectors to store SF1 values and variety names for all varieties
 all_sf1 <- c()
 all_sf1_varieties <- c()
 
-# 遍历所有品种
+# Iterate through all varieties
 for (variety in names(all_varieties)) {
-  # 获取当前品种的sheet1数据
+  # Get sheet1 data for the current variety
   sheet1_data <- all_varieties[[variety]]$sheet1
   
   sf1_values = as.numeric(sheet1_data$sf1)
   
   sf1_varieties <- rep(variety, length(sf1_values))
   
-  # 将当前品种的sf1值和品种名添加到所有值列表中
+  # Add the SF1 values and variety names of the current variety to the all lists
   all_sf1 <- c(all_sf1, sf1_values)
   all_sf1_varieties <- c(all_sf1_varieties, sf1_varieties)
 }
-# 将品种名和对应的sf1值合并到一个数据框中
+
+# Combine variety names and corresponding SF1 values into a data frame
 combined_df <- data.frame(Variety = all_sf1_varieties, SF1 = all_sf1)
 
-# 计算 SF1 值的最小值和最大值
+# Calculate the minimum and maximum values of SF1
 sf1_min <- min(combined_df$SF1)
 sf1_max <- max(combined_df$SF1)
 
-# 确定分为三个段，使用两个分位数
+# Divide into three segments using two quantiles
 num_segments <- 3
 quantiles <- quantile(combined_df$SF1, probs = seq(0, 1, length.out = num_segments + 1))
 
-# 将 SF1 值根据分位数段分割
+# Split the SF1 values according to the quantile segments
 segments <- cut(combined_df$SF1, breaks = quantiles, include.lowest = TRUE)
 
-# 按照分段将 combined_df 分为不同的子数据框
+# Split the combined_df into different sub-dataframes according to the segments
 segmented_dfs3 <- split(combined_df, segments)
-# save(segmented_dfs3,file = "segmented_dfs3.RData")
+# save(segmented_dfs3, file = "segmented_dfs3.RData")
 
 
-# # 创建一个新的Excel工作簿
+# # Create a new Excel workbook
 # wb <- createWorkbook()
 # 
-# # 为每个data.frame创建一个工作表，并把它们添加到工作簿中
+# # Create a worksheet for each data.frame and add them to the workbook
 # addWorksheet(wb, "Sheet1")
 # writeData(wb, sheet = "Sheet1", segmented_dfs3[[1]])
 # 
@@ -50,8 +51,5 @@ segmented_dfs3 <- split(combined_df, segments)
 # addWorksheet(wb, "Sheet3")
 # writeData(wb, sheet = "Sheet3", segmented_dfs3[[3]])
 # 
-# # 指定路径并保存Excel文件
+# # Specify the path and save the Excel file
 # saveWorkbook(wb, file = "D:/Rproject/sf3.xlsx", overwrite = TRUE)
-
-
-
