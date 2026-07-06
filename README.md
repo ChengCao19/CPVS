@@ -1,4 +1,5 @@
 # CPVS
+<<<<<<< HEAD
 
 Source code and data for:
 
@@ -38,3 +39,9 @@ Source code and data for:
 ## Contact
 
 For questions or issues regarding the code, please open an issue in this repository or contact the authors.
+=======
+This is the project file of "CPVS"
+
+# Paper title
+Morphological characteristic extraction of unopened cotton bolls using image analysis and geometric modeling methods
+>>>>>>> 9509a1883c695a90578e72fe6182633eba75d84a
